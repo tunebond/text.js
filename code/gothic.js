@@ -9,7 +9,7 @@ const { build, transform } = require('./base')
 module.exports = transform
 
 /**
- * Gothic to ULA map.
+ * Gothic to chat map.
  */
 
 const m = {
@@ -46,14 +46,14 @@ const m = {
   '(': '(',
   ')': ')',
   "'": "'",
-  ",": ',',
+  ',': ',',
   '.': '.',
   '?': '?',
-  "׳": "'",
+  '׳': "'",
   '״': '"',
   ':': ':',
   ';': ';',
-  '!': '!'
+  '!': '!',
 }
 
 const s = build(m)

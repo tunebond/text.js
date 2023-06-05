@@ -23,6 +23,17 @@ yarn add @tunebond/text
 npm i @tunebond/text
 ```
 
+## Usage
+
+You can use this library to process text in a few steps:
+
+1. Convert written text in various languages to ASCII
+   [chat text](https://github.com/tunebond/chat) (seed chat text).
+2. Convert that ASCII chat text to diacritic-rich chat text (rose chat
+   text).
+3. Or convert the ASCII text to simplified chat text (bird chat text),
+   which loses the pronunciation factors but makes it easy on the eyes.
+
 ## License
 
 MIT

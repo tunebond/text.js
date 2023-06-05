@@ -20,7 +20,7 @@ const fric = {
 }
 
 /**
- * Hebrew to ULA map.
+ * Hebrew to chat map.
  */
 
 const m = {

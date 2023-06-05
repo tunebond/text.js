@@ -7,7 +7,7 @@ const { build, transform } = require('./base')
 module.exports = transform
 
 /**
- * Hebrew to ULA map.
+ * Hebrew to chat map.
  */
 
 const m = {
