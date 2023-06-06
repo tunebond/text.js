@@ -1,13 +1,17 @@
-module.exports = {
-  transform,
-  build,
-}
+export type Mesh = Record<
+  string,
+  ((list: Array<string>) => void) | string
+>
 
 /**
  * Transform input text to output using map.
  */
 
-function transform(i, s, m) {
+export function transform(
+  i: string,
+  s: Record<string, unknown>,
+  m: Mesh,
+) {
   let o = []
   let w = 0
 
@@ -20,7 +24,7 @@ function transform(i, s, m) {
     while (true) {
       c = i.charAt(v).toLowerCase()
       if (r[c]) {
-        r = r[c]
+        r = r[c] as Record<string, unknown>
         y.push(c)
         v++
       } else {
@@ -30,18 +34,20 @@ function transform(i, s, m) {
 
     if (!r.__last__) {
       const t = i.charAt(w).toLowerCase()
-      const h = t.codePointAt(0).toString(16)
+      const h = t.codePointAt(0)?.toString(16) ?? ''
       const e = '\\u' + '0000'.substring(0, 4 - h.length) + h
-      console.log(y, i, c, c.codePointAt(0).toString(16))
+      console.log(y, i, c, c.codePointAt(0)?.toString(16))
       throw new Error(`${w}:${e}:${t}`)
     }
 
     let z = i.substr(w, v - w).toLowerCase()
 
-    if (typeof m[z] == 'function') {
-      m[z](o)
-    } else {
-      o.push(m[z])
+    const x = m[z]
+
+    if (typeof x == 'function') {
+      x(o)
+    } else if (x != null) {
+      o.push(x)
     }
 
     w = v
@@ -54,15 +60,18 @@ function transform(i, s, m) {
  * Build trie.
  */
 
-function build(m) {
-  let s = {}
+export function build(m: Mesh) {
+  let s: Record<string, unknown> = {}
 
   for (let key in m) {
     let v = key.toLowerCase().split('')
     let r = s
     while (v.length) {
       var x = v.shift()
-      r = r[x] = r[x] || {}
+      if (x) {
+        r[x] ??= {}
+        r = r[x] as Record<string, unknown>
+      }
     }
     r.__last__ = true
   }

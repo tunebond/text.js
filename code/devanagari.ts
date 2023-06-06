@@ -1,4 +1,4 @@
-const { build, transform } = require('./base')
+import { Mesh, build, transform } from './base.js'
 
 const virama = '\u094d'
 
@@ -6,41 +6,41 @@ const standaloneVowels = {
   अ: 'a',
   इ: 'i',
   उ: 'u',
-  ऋ: 'u#',
-  ऋ: 'u#h',
+  ऋ: 'u$',
+  // ऋ: 'u$h',
   ऌ: 'L',
-  ऌ: 'Lh',
+  // ऌ: 'Lh',
   ए: 'e',
-  ए: 'ee',
+  // ए: 'ee',
   ओ: 'o',
-  ओ: 'oo',
+  // ओ: 'oo',
   अं: 'am',
-  अं: 'am',
+  // अं: 'am',
   ॲ: 'e',
   ऍ: 'e',
   आ: 'aa',
   ई: 'ii',
   ऊ: 'uu',
-  ॠ: 'u#u#',
-  ॠ: 'u#u#h',
+  ॠ: 'u$u$',
+  // ॠ: 'u$u$h',
   ॡ: 'LL',
-  ॡ: 'LLh',
+  // ॡ: 'LLh',
   ऐ: 'ai',
   औ: 'au',
   अः: 'ah',
   ऑ: 'o',
 }
 
-const vowels = {
+const vowels: Mesh = {
   '\u093a': 'oe',
-  '\u093b': 'ooe',
-  '\u093e': 'aa',
+  '\u093b': 'o_e',
+  '\u093e': 'a_',
   '\u093f': 'i',
-  '\u0940': 'ii',
+  '\u0940': 'i_',
   '\u0941': 'u',
-  '\u0942': 'uu',
-  '\u0943': 'u#',
-  '\u0944': 'u#u#',
+  '\u0942': 'u_',
+  '\u0943': 'u$',
+  '\u0944': 'u$_',
   '\u0945': 'e',
   '\u0946': 'e',
   '\u0947': 'e',
@@ -49,16 +49,16 @@ const vowels = {
   '\u094a': 'o',
   '\u094b': 'o',
   '\u094c': 'au',
-  '\u094e': 'e',
+  // '\u094e': 'e',
   '\u094e': 'aw',
   '\u0955': 'e',
   '\u0956': 'ue',
-  '\u0956': 'uue',
+  // '\u0956': 'uue',
   '\u0962': 'L',
   '\u0963': 'LL',
 }
 
-const consonants = {
+const consonants: Mesh = {
   क: 'ka',
   ख: 'kha',
   ग: 'ga',
@@ -94,7 +94,7 @@ const consonants = {
   व: 'Va',
 }
 
-const numbers = {
+const numbers: Record<string, string> = {
   '०': '0',
   '१': '1',
   '२': '2',
@@ -107,10 +107,13 @@ const numbers = {
   '९': '9',
 }
 
-const vowelTransformer = Object.keys(vowels).reduce((m, x) => {
+const vowelTransformer = Object.keys(vowels).reduce<Mesh>((m, x) => {
   let render = vowels[x]
-  m[x] = m => {
-    m[m.length - 1] = m[m.length - 1].replace(/a/, '') + render
+  m[x] = (m: Array<string>) => {
+    const last = m[m.length - 1]
+    if (last) {
+      m[m.length - 1] = last.replace(/a/, '') + render
+    }
   }
   return m
 }, {})
@@ -128,19 +131,23 @@ const m = {
   '\u0953': '',
   '\u0964': '',
   '\u0965': '',
-  '\u0901': m => {
+  '\u0901': (m: Array<string>) => {
     m[m.length - 1] = m[m.length - 1] + '&'
   },
-  '\u093d': m => {
-    m[m.length - 1] = m[m.length - 1].replace(/a/, '')
+  '\u093d': (m: Array<string>) => {
+    const last = m[m.length - 1]
+    if (last) {
+      m[m.length - 1] = last.replace(/a/, '')
+    }
   },
-  [virama]: m => {
-    m[m.length - 1] = m[m.length - 1].replace(/a/, '')
+  [virama]: (m: Array<string>) => {
+    const last = m[m.length - 1]
+    if (last) {
+      m[m.length - 1] = last.replace(/a/, '')
+    }
   },
 }
 
 const s = build(m)
 
-const form = t => transform(t, s, m)
-
-module.exports = form
+export const make = (t: string) => transform(t, s, m)

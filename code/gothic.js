@@ -1,6 +1,6 @@
 // https://en.wiktionary.org/wiki/Category:Gothic_terms_with_IPA_pronunciation
 
-const { build, transform } = require('./base')
+import { build, transform } from './base.js'
 
 /**
  * Expose module.

@@ -1,4 +1,3 @@
-
 const broad = {
   bhf: 'w',
   bp: 'b',
@@ -32,7 +31,7 @@ const broad = {
   t: 't',
   v: 'w',
   zs: 'z',
-  z: 'z'
+  z: 'z',
 }
 
 const slender = {
@@ -74,7 +73,8 @@ const slender = {
 
 const vowels = {
   a: (l, i) => {
-    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/)) return 'aa'
+    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/))
+      return 'aa'
     if (l.substr(i + 1) == 'm' && l.length - 2 == i + 1) return 'aa'
     return 'a'
   },
@@ -88,8 +88,13 @@ const vowels = {
     if (l.substr(i + 1, i + 2).match(/^(?:m|n)/)) return 'O'
     if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|rr)/)) return 'oo'
     if (l.substr(i + 1, i + 3).match(/^(?:nn)/)) return 'uu'
-    if (l.substr(i + 1, i + 3).match(/^(?:ng)/) && l.length - 2 == i + 1) return 'uu'
-    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1) return 'uu'
+    if (
+      l.substr(i + 1, i + 3).match(/^(?:ng)/) &&
+      l.length - 2 == i + 1
+    )
+      return 'uu'
+    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1)
+      return 'uu'
     return 'o~'
   },
   u: (l, i) => {
@@ -102,7 +107,8 @@ const extras = {
   aei: () => 'ee',
   ae: () => 'ee',
   ai: (l, i) => {
-    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/)) return 'aa'
+    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/))
+      return 'aa'
     return 'a'
   },
   aoi: (l, i) => {
@@ -112,18 +118,21 @@ const extras = {
     return 'ii'
   },
   eai: (l, i) => {
-    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/)) return 'aa'
+    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/))
+      return 'aa'
     return 'a'
   },
   ea: (l, i) => {
-    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/)) return 'aa'
+    if (l.substr(i + 1, i + 3).match(/^(?:rl|rn|rd|ll|nn|rr)/))
+      return 'aa'
     return 'a'
   },
   ei: (l, i) => {
     if (l.substr(i + 1, i + 3).match(/mh/)) return 'I'
     if (l.substr(i + 1, i + 2).match(/m|n/)) return 'I'
     if (l.substr(i + 1, i + 2).match(/nn/)) return 'ii'
-    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1) return 'ii'
+    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1)
+      return 'ii'
     if (l.substr(i + 1, i + 3).match(/rl|rn|rd/)) return 'ee'
     if (l.substr(i + 1, i + 3).match(/ll/)) return 'Ui'
   },
@@ -143,7 +152,8 @@ const extras = {
     if (l.substr(i + 1).match(/^(?:n|m|mh)/)) return 'I'
     if (l.substr(i + 1).match(/^(?:ll)/)) return 'Ui'
     if (l.substr(i + 1).match(/^(?:nn)/)) return 'ii'
-    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1) return 'ii'
+    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1)
+      return 'ii'
     if (l.substr(i + 1).match(/^(?:rl|rn|rd)/)) return 'oo'
     return 'E'
   },
@@ -152,7 +162,8 @@ const extras = {
   ui: (l, i) => {
     if (l.substr(i + 1).match(/^(?:cht|rs|rt)/)) return 'O'
     if (l.substr(i + 1).match(/^(?:ll|nn)/)) return 'ii'
-    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1) return 'ii'
+    if (l.substr(i + 1, i + 2).match(/m/) && l.length - 1 == i + 1)
+      return 'ii'
     if (l.substr(i + 1).match(/^(?:rl|rn|rd)/)) return 'uu'
     return 'I'
   },
@@ -185,18 +196,17 @@ const extras = {
   uí: () => 'ii',
   uá: () => 'uuaa',
   uó: () => 'uuoo',
-  ú: () => 'uu'
+  ú: () => 'uu',
 }
 
-const form = (s) => {
+const form = s => {
   let out = []
   let i = 0
   let r = s
   let firstVowel = true
   while (r.length) {
     let found = false
-    x:
-    for (let k in broad) {
+    x: for (let k in broad) {
       if (r.indexOf(k) === 0) {
         let start = i == 0
         i += k.length
@@ -222,8 +232,7 @@ const form = (s) => {
     }
 
     if (!found) {
-      y:
-      for (let k in extras) {
+      y: for (let k in extras) {
         if (r.indexOf(k) === 0) {
           let v = extras[k](s, i)
           if (firstVowel) {
@@ -242,8 +251,7 @@ const form = (s) => {
     }
 
     if (!found) {
-      y:
-      for (let k in vowels) {
+      y: for (let k in vowels) {
         if (r.indexOf(k) === 0) {
           let v = firstVowel ? `(${vowels[k](s, i)})` : 'U'
           firstVowel = false

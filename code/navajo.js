@@ -1,4 +1,4 @@
-const { build, transform } = require('./base')
+import { build, transform } from './base.js'
 
 /**
  * Navajo to chat map.

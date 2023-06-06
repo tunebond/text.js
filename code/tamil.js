@@ -1,5 +1,4 @@
-
-const { build, transform } = require('./base')
+import { build, transform } from './base.js'
 
 const virama = '\u0bcd'
 
@@ -18,53 +17,53 @@ const vowelDiacritics = {
 }
 
 const standaloneVowels = {
-  'அ': 'a',
-  'ஆ': 'aa',
-  'இ': 'i',
-  'ஈ': 'ii',
-  'உ': 'u',
-  'ஊ': 'uu',
-  'எ': 'e',
-  'ஏ': 'ee',
-  'ஐ': 'aI',
-  'ஒ': 'o',
-  'ஓ': 'oo',
-  'ஔ': 'aO',
-  'ஃ': 'aH',
-  'அஂ': 'a~',
+  அ: 'a',
+  ஆ: 'aa',
+  இ: 'i',
+  ஈ: 'ii',
+  உ: 'u',
+  ஊ: 'uu',
+  எ: 'e',
+  ஏ: 'ee',
+  ஐ: 'aI',
+  ஒ: 'o',
+  ஓ: 'oo',
+  ஔ: 'aO',
+  ஃ: 'aH',
+  அஂ: 'a~',
 }
 
 const consonants = {
-  'கஷ': 'kXa',
-  'க': 'ka',
-  'ஃப': 'fa',
-  'ஃஜ': 'za',
-  'ஃக': 'Ha',
-  'ங': 'qa',
-  'ச': 'txya',
-  'ஞ': 'nya',
-  'ட': 'Ta',
-  'ண': 'Na',
-  'த': 'ta',
-  'ந': 'na',
-  'ப': 'pa',
-  'ம': 'ma',
-  'ய': 'ya',
-  'ர': 'ra',
-  'ல': 'la',
-  'வ': 'Va',
-  'ழ': 'ra',
-  'ள': 'La',
-  'ற': 'rra',
-  'ன': 'na',
-  'ஜ': 'dja',
-  'ஶ': 'xya',
-  'வ': 'va',
-  'ஷ': 'Xa',
-  'ஸ': 'sa',
-  'ஹ': 'ha',
+  கஷ: 'kXa',
+  க: 'ka',
+  ஃப: 'fa',
+  ஃஜ: 'za',
+  ஃக: 'Ha',
+  ங: 'qa',
+  ச: 'txya',
+  ஞ: 'nya',
+  ட: 'Ta',
+  ண: 'Na',
+  த: 'ta',
+  ந: 'na',
+  ப: 'pa',
+  ம: 'ma',
+  ய: 'ya',
+  ர: 'ra',
+  ல: 'la',
+  வ: 'Va',
+  ழ: 'ra',
+  ள: 'La',
+  ற: 'rra',
+  ன: 'na',
+  ஜ: 'dja',
+  ஶ: 'xya',
+  வ: 'va',
+  ஷ: 'Xa',
+  ஸ: 'sa',
+  ஹ: 'ha',
   '\u0b82': '~',
-  '\u00a0': ' '
+  '\u00a0': ' ',
 }
 
 const vowelTransformer = Object.keys(vowelDiacritics).reduce((m, x) => {
@@ -80,8 +79,9 @@ const m = {
   ...standaloneVowels,
   ...consonants,
   [virama]: m => {
-    m[m.length - 1] = m[m.length - 1] && m[m.length - 1].replace(/a/, '')
-  }
+    m[m.length - 1] =
+      m[m.length - 1] && m[m.length - 1].replace(/a/, '')
+  },
 }
 
 const s = build(m)

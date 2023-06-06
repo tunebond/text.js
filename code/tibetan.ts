@@ -1,4 +1,4 @@
-const { build, transform } = require('./base')
+import { build, transform } from './base.js'
 
 // http://www.thlib.org/reference/transliteration/#!essay=/thl/ewts/rules/
 
@@ -129,24 +129,24 @@ const m = {
   '\u0f92': 'g',
   '\u0fa6': 'b',
   ཨ: 'a',
-  '\u0f7d': m => {
-    if (m[m.length - 1]) {
-      m[m.length - 1] = m[m.length - 1].replace(/a/g, 'o_')
+  '\u0f7d': (m: Array<string>) => {
+    const last = m[m.length - 1]
+    if (last) {
+      m[m.length - 1] = last.replace(/a/g, 'o_')
     }
   },
 
   '\u0f39': '', // lenition?
 
-  '\u0f7e': m => {
+  '\u0f7e': (m: Array<string>) => {
     m[m.length - 1] = m[m.length - 1] + '&'
   },
-  '\u0f7f': m => {
+  '\u0f7f': (m: Array<string>) => {
     m[m.length - 1] = m[m.length - 1] + '&'
   },
 
   // vowels
   '\u0f71': 'a_',
-  '\u0f68': 'a',
   '\u0f7b': 'e_',
   'ི': 'i',
   'ུ': 'u',
@@ -167,6 +167,4 @@ const m = {
 
 const s = build(m)
 
-const form = t => transform(t, s, m)
-
-module.exports = form
+export const make = (t: string) => transform(t, s, m)
